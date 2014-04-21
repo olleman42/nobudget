@@ -7,19 +7,16 @@
 <body>
     
     <div ng-controller="ListCtrl">
-        {{text}}
-        <p ng-repeat="i in model">{{i}}</p>
+        <div ng-repeat="post in model">
+            <h1>{{ post.gsx$title.$t }} - {{ post.gsx$date.$t }}</h1>
+            <div>{{ post.gsx$content.$t }}</div>
+        </div>
     </div>
 
     <script src="bower_components/angular/angular.min.js"></script>
     <script>
         (function() {
             var app = angular.module('blog', []);
-
-            // function ListController($scope)
-            // {
-            //  $scope.text ="hello";
-            // }
 
             app.controller('ListCtrl', ['$scope', 'ContentService', function($scope, content) {
                 //$scope.model = ["one","two","three"];
