@@ -3,26 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Blog showcase!</title>
+
+    <style>
+        body { width: 960px; margin: 0 auto; font-family: sans-serif;}
+        footer { margin-top: 20px;}
+        header {position: fixed; background-color: white; top: 0; width: 100%;}
+        .content {margin-top: 100px;}
+    </style>
 </head>
 <body>
     
-    <div ng-controller="ListCtrl">
+    <header>
+        <h1>Concept of blog</h1>
+    </header>
+
+    <div ng-controller="ListCtrl" class="content">
         <div ng-repeat="post in model">
-            <h1>{{ post.gsx$title.$t }} - {{ post.gsx$date.$t }}</h1>
+            <h2>{{ post.gsx$title.$t }} - {{ post.gsx$date.$t }}</h2>
+            <img ng-src="{{post.gsx$image.$t}}" />
             <div>{{ post.gsx$content.$t }}</div>
         </div>
     </div>
 
-    <script src="bower_components/angular/angular.min.js"></script>
+    <footer>
+        © {{ year }}
+    </footer>
+
+    <!-- <script src="bower_components/angular/angular.min.js"></script> -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.5/angular.min.js"></script>
     <script>
         (function() {
             var app = angular.module('blog', []);
 
-            app.controller('ListCtrl', ['$scope', 'ContentService', function($scope, content) {
+            app.controller('ListCtrl', ['$scope', 'ContentService', '$rootScope', function($scope, content, $rootScope) {
                 //$scope.model = ["one","two","three"];
 
+                var date = new Date();
+                $rootScope.year = date.getFullYear();
+
                 content.getPosts().success(function(data) {
-                    $scope.model = data.feed.entry;
+                    $scope.model = data.feed.entry.reverse();
                 });
                 
             }]);
@@ -40,6 +60,7 @@
             https://spreadsheets.google.com/feeds/list/17S9OvrLi4PMCZIcz4iSMKDB_i5-MwevcKxmdWvK_zxo/od6/public/values?alt=json-in-script&callback=
             */
 
+            // versionshantering på köpet!
         })();
     </script>
 </body>
