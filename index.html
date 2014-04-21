@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" ng-app="blog">
+<head>
+	<meta charset="UTF-8">
+	<title>Blog showcase!</title>
+</head>
+<body>
+	
+	<div ng-controller="ListCtrl">
+		{{text}}
+		<p ng-repeat="i in model">{{i}}</p>
+	</div>
+
+	<script src="bower_components/angular/angular.min.js"></script>
+	<script>
+		(function() {
+			var app = angular.module('blog', []);
+
+			// function ListController($scope)
+			// {
+			// 	$scope.text ="hello";
+			// }
+
+			app.controller('ListCtrl', ['$scope', 'ContentService', function($scope, content) {
+				//$scope.model = ["one","two","three"];
+
+				content.getPosts().success(function(data) {
+					$scope.model = data.feed.entry;
+				});
+				
+			}]);
+
+			app.service('ContentService', ['$http', function($http) {
+				return {
+					getPosts: function()
+					{
+						return $http.jsonp('https://spreadsheets.google.com/feeds/list/17S9OvrLi4PMCZIcz4iSMKDB_i5-MwevcKxmdWvK_zxo/od6/public/values?alt=json-in-script&callback=JSON_CALLBACK');
+					}
+				}
+			}]);
+
+			/*
+			https://spreadsheets.google.com/feeds/list/17S9OvrLi4PMCZIcz4iSMKDB_i5-MwevcKxmdWvK_zxo/od6/public/values?alt=json-in-script&callback=
+			*/
+
+		})();
+	</script>
+</body>
+</html>
