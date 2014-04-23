@@ -39,7 +39,7 @@
                 //$scope.model = ["one","two","three"];
 
                 var date = new Date();
-                $rootScope.year = date.getFullYear();
+                $rootScope.year = date.getFullYear(); // this doesn't belong here wtf
 
                 content.getPosts().success(function(data) {
                     $scope.model = data.feed.entry.reverse();
